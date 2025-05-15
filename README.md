@@ -1,6 +1,6 @@
 # Linearly Homomorphic Time-Lock Puzzles
 
-Implementation of the Linearly-Homomorphic Time-Lock Puzzle algorithm as described in section 4.1 "Linearly Homomorphic" of the paper [Homomorphic Time-Lock Puzzles and Application](https://eprint.iacr.org/2019/635.pdf) by Malavolta et al.
+Implementation of the Linearly-Homomorphic Time-Lock Puzzle algorithm as described in section 4.1 "Linearly Homomorphic" of the paper [Homomorphic Time-Lock Puzzles and Applications](https://eprint.iacr.org/2019/635.pdf) by Malavolta et al.
 
 This implementation also features the extension mentioned in section 5.1 "Semi-Compact Scheme for Branching Programs" which allows for larger message spaces.
 

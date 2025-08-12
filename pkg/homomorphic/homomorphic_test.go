@@ -115,3 +115,26 @@ func TestAddPlaintextValues(t *testing.T) {
 		}
 	})
 }
+
+func TestAddPlaintextValue(t *testing.T) {
+	t.Parallel()
+
+	t.Run("Generate Puzzle / Add Plaintext Value / Solve Puzzle", func(t *testing.T) {
+		t.Parallel()
+
+		message1 := big.NewInt(24)
+		message2 := big.NewInt(42)
+		expected := big.NewInt(66)
+
+		params, _ := params.GenerateParams(128, 2, big.NewInt(1))
+		puzzle1, _ := puzzle.GeneratePuzzle(params, message1)
+
+		puzzle2 := homomorphic.AddPlaintextValue(params, puzzle1, message2)
+
+		result := puzzle.SolvePuzzle(params, puzzle2)
+
+		if result.Cmp(expected) != 0 {
+			t.Errorf("want %v, got %v", expected, result)
+		}
+	})
+}

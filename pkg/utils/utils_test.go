@@ -2,6 +2,7 @@ package utils_test
 
 import (
 	"math/big"
+	"slices"
 	"testing"
 
 	"github.com/primefactor-io/lhtlp/pkg/utils"
@@ -9,6 +10,65 @@ import (
 
 func TestUtils(t *testing.T) {
 	t.Parallel()
+
+	t.Run("GenerateRandomBytesSeeded", func(t *testing.T) {
+		t.Parallel()
+
+		bits := 128
+		seed := []byte{0, 1, 2, 3, 4, 5}
+		bytes, _ := utils.GenerateRandomBytesSeeded(seed, bits)
+
+		if len(bytes)*8 != bits {
+			t.Error("Random byte generation failed")
+		}
+
+		got := bytes
+		want := []byte{
+			213, 12, 38, 228, 46, 102, 162, 154,
+			222, 213, 38, 53, 39, 181, 57, 114,
+		}
+
+		if !slices.Equal(got, want) {
+			t.Errorf("want %v, got %v", want, got)
+		}
+	})
+
+	t.Run("BytesToBit", func(t *testing.T) {
+		t.Parallel()
+
+		bytes := []byte{
+			0, // 00000000
+			1, // 10000000
+			2, // 01000000
+			3, // 11000000
+			4, // 00100000
+			5, // 10100000
+			6, // 01100000
+			7, // 11100000
+			8, // 00010000
+		}
+
+		bits := []byte{
+			0, 0, 0, 0, 0, 0, 0, 0, // 0
+			1, 0, 0, 0, 0, 0, 0, 0, // 1
+			0, 1, 0, 0, 0, 0, 0, 0, // 2
+			1, 1, 0, 0, 0, 0, 0, 0, // 3
+			0, 0, 1, 0, 0, 0, 0, 0, // 4
+			1, 0, 1, 0, 0, 0, 0, 0, // 5
+			0, 1, 1, 0, 0, 0, 0, 0, // 6
+			1, 1, 1, 0, 0, 0, 0, 0, // 7
+			0, 0, 0, 1, 0, 0, 0, 0, // 8
+		}
+
+		for i := range len(bytes) * 8 {
+			want := bits[i]
+			got := utils.BytesToBit(bytes, i)
+
+			if got != want {
+				t.Errorf("%v want %v, got %v", i+1, want, got)
+			}
+		}
+	})
 
 	t.Run("Factorial", func(t *testing.T) {
 		t.Parallel()
